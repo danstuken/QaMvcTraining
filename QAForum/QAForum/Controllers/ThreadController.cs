@@ -25,6 +25,7 @@
         {
             var thread = _forumRepository.GetThreadById(id);
             ViewBag.Message = "Thread detail";
+            ViewBag.Posts = _forumRepository.GetPostsByThread(id);
             return View(thread);
         }
 

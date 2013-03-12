@@ -27,6 +27,7 @@
         {
             var forum = _forumRepository.GetForumById(id);
             ViewBag.HeaderMessage = "Forum Detail";
+            ViewBag.Threads = _forumRepository.GetThreadsByForum(id);
             return View(forum);
         }
 

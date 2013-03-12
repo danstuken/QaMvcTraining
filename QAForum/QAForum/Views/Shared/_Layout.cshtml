@@ -9,6 +9,7 @@
     <div class="page">
         <div id="header">
             <div id="title">
+                <img src="../../Content/images/forum.jpg" alt="QA Forum Logo" />
                 <h1>QA Forum</h1>
             </div>
             <div id="logindisplay">
@@ -20,7 +21,7 @@
                     <li>@Html.ActionLink("Forums", "Index", "Forum")</li>
                     <li>@Html.ActionLink("Thread", "Index", "Thread")</li>
                     <li>@Html.ActionLink("Posts", "Index", "Post")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Statistics", "Stats", "Legacy")</li>
                 </ul>
             </div>
         </div>
@@ -28,6 +29,7 @@
             @RenderBody()
         </div>
         <div id="footer">
+            <a href="http://www.qa.com" target="_blank">QA Training</a>
         </div>
     </div>
 </body>
