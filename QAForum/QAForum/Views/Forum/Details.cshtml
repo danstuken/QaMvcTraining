@@ -1,0 +1,20 @@
+﻿@model QAForum.Models.Forum.Forum
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.HeaderMessage</h2>
+
+<fieldset>
+    <legend>Forum</legend>
+
+    <div class="display-label">ForumTitle</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ForumTitle)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ForumId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

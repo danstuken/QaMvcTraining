@@ -1,0 +1,25 @@
+﻿@model QAForum.Models.Forum.Thread
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.Message</h2>
+
+<fieldset>
+    <legend>Thread</legend>
+
+    <div class="display-label">ForumID</div>
+    <div class="display-field">@Model.ForumId</div>
+
+    <div class="display-label">ThreadTitle</div>
+    <div class="display-field">@Model.ThreadTitle</div>
+
+    <div class="display-label">OwnerID</div>
+    <div class="display-field">@Model.OwnerId</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ThreadId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
