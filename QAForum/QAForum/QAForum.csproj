@@ -43,6 +43,9 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc3.2.6.3.862\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
     </Reference>
@@ -90,6 +93,7 @@
     <Compile Include="Infrastructure\EntityFrameworkForumContext.cs" />
     <Compile Include="Infrastructure\ForumRepository.cs" />
     <Compile Include="Infrastructure\SqlForumRepository.cs" />
+    <Compile Include="Mapping\ViewModelMapping.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Diagnostics\Diagnostic.cs" />
     <Compile Include="Models\Diagnostics\ExceptionLog.cs" />
@@ -98,6 +102,9 @@
     <Compile Include="Models\Forum\Post.cs" />
     <Compile Include="Models\Forum\Thread.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModels\ForumViewModel.cs" />
+    <Compile Include="Models\ViewModels\PostViewModel.cs" />
+    <Compile Include="Models\ViewModels\ThreadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +157,7 @@
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\Legacy\Stats.aspx" />
+    <Content Include="Errors\ErrorResourceNotFound.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

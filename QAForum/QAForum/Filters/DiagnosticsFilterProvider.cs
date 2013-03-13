@@ -6,7 +6,7 @@
     using Autofac.Integration.Mvc;
     using Diagnostics;
 
-    public class DiagnosticsFilterProvider : AutofacFilterAttributeFilterProvider
+    public class DiagnosticsFilterProvider: IFilterProvider
     {
         private readonly IList<ControllerAction> _permittedActions = new List<ControllerAction>();
 
@@ -19,7 +19,7 @@
                 });
         }
 
-        public override IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+        public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
         {
             foreach (var controllerAction in _permittedActions)
             {

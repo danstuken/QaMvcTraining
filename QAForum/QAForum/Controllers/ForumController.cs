@@ -1,10 +1,12 @@
 ﻿namespace QAForum.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Web.Mvc;
-    using Filters.Diagnostics;
+    using AutoMapper;
     using Infrastructure;
     using Models.Forum;
+    using Models.ViewModels;
 
     public class ForumController : Controller
     {
@@ -19,27 +21,33 @@
         public ActionResult Index()
         {
             var forums = _forumRepository.GetAllForums();
+            var forumVms = Mapper.Map<IEnumerable<Forum>, IEnumerable<ForumViewModel>>(forums);
+
             ViewBag.HeaderMessage = "QA Forums List - " + DateTime.Now.ToString("HH:mm:ss");
-            return View(forums);
+            return View(forumVms);
         }
 
         public ActionResult Details(int id)
         {
             var forum = _forumRepository.GetForumById(id);
+            var forumVm = Mapper.Map<Forum, ForumViewModel>(forum);
+
             ViewBag.HeaderMessage = "Forum Detail";
-            ViewBag.Threads = _forumRepository.GetThreadsByForum(id);
-            return View(forum);
+            ViewBag.Threads = Mapper.Map<IEnumerable<Thread>, IEnumerable<ThreadViewModel>>(_forumRepository.GetThreadsByForum(id));
+            return View(forumVm);
         }
 
         public ActionResult Create()
         {
-            var newForum = new Forum();
-            return View(newForum);
+            var newForumVm = new ForumViewModel();
+            return View(newForumVm);
         }
 
         [HttpPost]
-        public ActionResult Create(Forum forumToCreate)
+        public ActionResult Create(ForumViewModel forumVm)
         {
+            var forumToCreate = Mapper.Map<ForumViewModel, Forum>(forumVm);
+
             _forumRepository.AddForum(forumToCreate);
             return RedirectToAction("Index");
         }
@@ -47,12 +55,15 @@
         public ActionResult Edit(int id)
         {
             var forumToEdit = _forumRepository.GetForumById(id);
-            return View(forumToEdit);
+            var forumVm = Mapper.Map<Forum, ForumViewModel>(forumToEdit);
+
+            return View(forumVm);
         }
 
         [HttpPost]
-        public ActionResult Edit(Forum updatedForum)
+        public ActionResult Edit(ForumViewModel forumVm)
         {
+            var updatedForum = Mapper.Map<ForumViewModel, Forum>(forumVm);
             _forumRepository.UpdateForum(updatedForum);
             return RedirectToAction("Index");
         }
@@ -60,13 +71,17 @@
         public ActionResult Delete(int id)
         {
             var forumToDelete = _forumRepository.GetForumById(id);
-            return View(forumToDelete);
+            var forumVm = Mapper.Map<Forum, ForumViewModel>(forumToDelete);
+
+            return View(forumVm);
         }
 
         [HttpPost]
-        public ActionResult Delete(Forum forumToDelete)
+        public ActionResult Delete(ForumViewModel forumVm)
         {
+            var forumToDelete = Mapper.Map<ForumViewModel, Forum>(forumVm);
             _forumRepository.DeleteForum(forumToDelete);
+
             return RedirectToAction("Index");
         }
     }

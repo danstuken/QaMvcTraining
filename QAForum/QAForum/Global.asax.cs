@@ -12,6 +12,7 @@ namespace QAForum
     using Filters;
     using Filters.Diagnostics;
     using Infrastructure;
+    using Mapping;
 
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -42,19 +43,30 @@ namespace QAForum
 
         protected void Application_Start()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterType<EntityFrameworkForumContext>().As<ForumContext>().InstancePerLifetimeScope();
-            builder.RegisterType<SqlForumRepository>().As<ForumRepository>();
-            builder.RegisterType<EntityFrameworkDiagnosticsContext>().As<DiagnosticsContext>();
-            //builder.RegisterFilterProvider();
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            ConfigureIoC();
+            ConfigureMappings();
 
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        private static void ConfigureMappings()
+        {
+            ViewModelMapping.MapModelsToViewModels();
+            ViewModelMapping.MapViewModelsToModels();
+        }
+
+        private static void ConfigureIoC()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterControllers(typeof (MvcApplication).Assembly);
+            builder.RegisterType<EntityFrameworkForumContext>().As<ForumContext>().InstancePerLifetimeScope();
+            builder.RegisterType<SqlForumRepository>().As<ForumRepository>();
+            builder.RegisterType<EntityFrameworkDiagnosticsContext>().As<DiagnosticsContext>();
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

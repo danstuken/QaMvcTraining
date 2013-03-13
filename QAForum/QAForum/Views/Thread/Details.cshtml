@@ -1,5 +1,5 @@
-﻿@using QAForum.Models.Forum
-@model QAForum.Models.Forum.Thread
+﻿@using QAForum.Models.ViewModels
+@model ThreadViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -22,7 +22,7 @@
     </div>
     
     <h3>Posts</h3>
-    @Html.Partial("~/Views/Post/PartialPostList.cshtml", (List<Post>)ViewBag.Posts)
+    @Html.Partial("~/Views/Post/PartialPostList.cshtml", (List<PostViewModel>)ViewBag.Posts)
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.ThreadId }) |
