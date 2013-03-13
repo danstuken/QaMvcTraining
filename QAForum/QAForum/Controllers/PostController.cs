@@ -20,8 +20,12 @@
         public ActionResult Index()
         {
             var allPosts = _forumRepository.GetAllPosts();
+            var allThreads = _forumRepository.GetAllThreads();
+
             var allPostsVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(allPosts);
-            
+            var allThreadsVms = Mapper.Map<IEnumerable<Thread>, IEnumerable<ThreadViewModel>>(allThreads);
+
+            ViewBag.ThreadId = new SelectList(allThreadsVms, "ThreadId", "ThreadTitle");
             ViewBag.Message = "QA Forums list [posts]";
             return View(allPostsVms);
         }
@@ -77,6 +81,31 @@
             var post = Mapper.Map<PostViewModel, Post>(postVm);
             _forumRepository.DeletePost(post);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult FindPosts(string query)
+        {
+            IEnumerable<PostViewModel> postVms = new PostViewModel[] {};
+            if (!string.IsNullOrEmpty(query))
+            {
+                var foundPosts = _forumRepository.FindPosts(query);
+                postVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(foundPosts);
+                
+            }
+
+            if(Request.IsAjaxRequest())
+                return PartialView("PartialPostList", postVms);
+            return View(postVms);
+        }
+
+        public ActionResult PostsByThread(int id)
+        {
+            var posts = _forumRepository.GetPostsByThread(id);
+            var postVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(posts);
+            
+            if (Request.IsAjaxRequest())
+                return PartialView("PartialPostList", postVms);
+            return View(postVms);
         }
     }
 }

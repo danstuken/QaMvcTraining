@@ -15,6 +15,7 @@
         Thread GetThreadById(int threadId);
         IEnumerable<Post> GetPostsByThread(int threadId);
         Post GetPostById(int postId);
+        IEnumerable<Post> FindPosts(string query);
         User GetUserById(Guid userId);
         void AddForum(Forum forum);
         void UpdateForum(Forum forum);
@@ -24,6 +25,7 @@
         void DeleteThread(Thread thread);
         void AddPost(Post post);
         void UpdatePost(Post post);
-        void DeletePost(Post post); 
+        void DeletePost(Post post);
+        IEnumerable<User> GetAllUsers();
     }
 }

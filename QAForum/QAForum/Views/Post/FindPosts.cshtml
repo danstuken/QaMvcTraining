@@ -1,0 +1,22 @@
+﻿@model IEnumerable<QAForum.Models.ViewModels.PostViewModel>
+
+@{
+    ViewBag.Title = "Find Posts";
+}
+
+<h2>Find Posts</h2>
+
+@using (Ajax.BeginForm("FindPosts", "Post", new AjaxOptions {UpdateTargetId = "results"}))
+{
+    <p>
+        @Html.Label("Search", "Search string"):
+        @Html.TextBox("query", null, new {size = 40})
+    </p>
+    <p>
+        <input type="submit" value="Find"/>
+    </p>
+}
+
+<div id="results">
+    @{ Html.RenderPartial("PartialPostList", Model); }
+</div>

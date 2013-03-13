@@ -1,6 +1,7 @@
 ﻿namespace QAForum.Controllers
 {
     using System;
+    using System.Linq;
     using System.Web.Mvc;
     using Infrastructure;
 
@@ -18,6 +19,14 @@
         {
             var user = _forumRepository.GetUserById(id);
             return PartialView(user);
+        }
+
+        public JsonResult UserNameSearch(string searchTerm)
+        {
+            var query = from u in _forumRepository.GetAllUsers()
+                        where u.UserName.ToLower().StartsWith(searchTerm.ToLower())
+                        select u.UserName;
+            return Json(query.ToArray(), JsonRequestBehavior.AllowGet);
         }
     }
 }

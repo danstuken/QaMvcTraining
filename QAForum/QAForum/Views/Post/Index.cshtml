@@ -1,8 +1,39 @@
 ﻿@model IEnumerable<QAForum.Models.ViewModels.PostViewModel>
-
 @{
     ViewBag.Title = "Index";
 }
+<script src="@Url.Content("~/Scripts/jquery-ui-1.8.11.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input#tbAuto").autocomplete({
+            source: function (request, response) {
+                $.getJSON('/User/UserNameSearch', { searchTerm: request.term }, response);
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ThreadId').change(function () {
+            var tmpThreadid = $("#ThreadId").val();
+            $("#results").load("/Post/PostsByThread/?id=" +
+                tmpThreadid);
+        });
+    });
+</script>
 
 <h2>@ViewBag.Message</h2>
-@Html.Partial("PartialPostList")
+
+@Html.Label("Thread: ")
+@Html.DropDownList("ThreadId")
+
+<p>
+    @Html.Label("User: ")
+    @Html.TextBox("tbAuto")
+</p>
+
+<div id="results">
+    @Html.Partial("PartialPostList")
+</div>

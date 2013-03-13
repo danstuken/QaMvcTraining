@@ -55,6 +55,14 @@
             return _forumContext.Posts.Single(p => p.PostId == postId);
         }
 
+        IEnumerable<Post> ForumRepository.FindPosts(string searchTerm)
+        {
+            var query = from post in _forumContext.Posts
+                        where post.PostBody.Contains(searchTerm)
+                        select post;
+            return query.ToList();
+        }
+            
         User ForumRepository.GetUserById(Guid userId)
         {
             return _forumContext.Users.Single(u => u.UserId == userId);
@@ -138,5 +146,9 @@
             _forumContext.SaveChanges();
         }
 
+        IEnumerable<User> ForumRepository.GetAllUsers()
+        {
+            return _forumContext.Users.ToList();
+        } 
     }
 }
