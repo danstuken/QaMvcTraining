@@ -1,6 +1,8 @@
 ﻿namespace QAForum.Controllers
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Mvc;
     using AutoMapper;
     using Infrastructure;
@@ -83,12 +85,12 @@
             return RedirectToAction("Index");
         }
 
-        public ActionResult FindPosts(string query)
+        public ActionResult FindPosts(string searchTerm)
         {
             IEnumerable<PostViewModel> postVms = new PostViewModel[] {};
-            if (!string.IsNullOrEmpty(query))
+            if (!string.IsNullOrEmpty(searchTerm))
             {
-                var foundPosts = _forumRepository.FindPosts(query);
+                var foundPosts = _forumRepository.FindPosts(searchTerm);
                 postVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(foundPosts);
                 
             }
@@ -106,6 +108,30 @@
             if (Request.IsAjaxRequest())
                 return PartialView("PartialPostList", postVms);
             return View(postVms);
+        }
+
+        public ActionResult TagSearch(string tag)
+        {
+            IEnumerable<Post> posts;
+            if (!string.IsNullOrEmpty(tag))
+                posts = _forumRepository.FindPosts(tag);
+            else
+                posts = _forumRepository.GetAllPosts();
+            
+            ViewBag.Message = "Posts for tag: " + tag;
+            var postsVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(posts);
+            return View(postsVms);
+        }
+
+        public ActionResult DateSearch(int day, int month, int year)
+        {
+            var query = from p in _forumRepository.GetAllPosts()
+                        where p.PostDateTime.Date == new DateTime(year, month, day)
+                        select p;
+            var postsVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(query.ToList());
+
+            ViewBag.Message = string.Format("Posts posted on: {0}/{1}/{2}", day, month, year);
+            return View(postsVms);
         }
     }
 }

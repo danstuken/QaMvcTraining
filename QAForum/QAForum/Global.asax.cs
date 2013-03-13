@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-
+﻿
 namespace QAForum
 {
+    using System.Web.Mvc;
+    using System.Web.Routing;
     using Autofac;
     using Autofac.Integration.Mvc;
     using Filters;
-    using Filters.Diagnostics;
     using Infrastructure;
     using Mapping;
 
@@ -32,6 +27,19 @@ namespace QAForum
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                "Search Route",
+                "tagged/{tag}",
+                new {controller = "Post", action = "TagSearch", tag = UrlParameter.Optional}
+                );
+
+            routes.MapRoute(
+                "Posted Date",
+                "posted/{day}-{month}-{year}",
+                new {controller = "Post", action = "DateSearch"},
+                new {day = @"\d{2}", month = @"\d{2}", year = @"\d{4}"}
+                );
 
             routes.MapRoute(
                 "Default", // Route name

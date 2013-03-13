@@ -1,0 +1,8 @@
+﻿@model IEnumerable<QAForum.Models.ViewModels.PostViewModel>
+
+@{
+    ViewBag.Title = "Date Search";
+}
+
+<h2>@ViewBag.Message</h2>
+@{ Html.RenderPartial("PartialPostList", Model); }
