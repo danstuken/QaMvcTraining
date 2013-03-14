@@ -1,13 +1,18 @@
 ﻿
 namespace QAForum
 {
+    using System.ServiceModel;
     using System.Web.Mvc;
     using System.Web.Routing;
     using Autofac;
     using Autofac.Integration.Mvc;
+    using Autofac.Integration.Wcf;
     using Filters;
+    using ForumServiceContract;
     using Infrastructure;
     using Mapping;
+    using Providers;
+    using Tags;
 
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -70,9 +75,15 @@ namespace QAForum
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof (MvcApplication).Assembly);
-            builder.RegisterType<EntityFrameworkForumContext>().As<ForumContext>().InstancePerLifetimeScope();
-            builder.RegisterType<SqlForumRepository>().As<ForumRepository>();
             builder.RegisterType<EntityFrameworkDiagnosticsContext>().As<DiagnosticsContext>();
+            builder.RegisterType<SqlPostsTagCloudProvider>().As<TagCloudProvider>();
+            builder.RegisterType<ServiceWrapperForumProvider>().As<ForumProvider>();
+            builder.Register(c => new ChannelFactory<IForumService>(
+                                       new BasicHttpBinding(),
+                                       new EndpointAddress("http://localhost:50012/ForumService.svc")))
+                   .SingleInstance();
+            builder.Register(c => c.Resolve<ChannelFactory<IForumService>>().CreateChannel())
+                   .UseWcfSafeRelease();
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }

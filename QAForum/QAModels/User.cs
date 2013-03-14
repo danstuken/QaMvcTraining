@@ -1,4 +1,4 @@
-﻿namespace QAForum.Models
+﻿namespace QAModels
 {
     using System;
 

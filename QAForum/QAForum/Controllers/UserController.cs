@@ -3,27 +3,31 @@
     using System;
     using System.Linq;
     using System.Web.Mvc;
-    using Infrastructure;
+    using AutoMapper;
+    using Models.ViewModels;
+    using Providers;
+    using QAModels;
 
     public class UserController:Controller
     {
-        private readonly ForumRepository _forumRepository;
+        private readonly ForumProvider _forumProvider;
 
-        public UserController(ForumRepository forumRepository)
+        public UserController(ForumProvider forumProvider)
         {
-            _forumRepository = forumRepository;
+            _forumProvider = forumProvider;
         }
 
         [OutputCache(Duration = 10)]
         public PartialViewResult PartialUserDetails(Guid id)
         {
-            var user = _forumRepository.GetUserById(id);
-            return PartialView(user);
+            var user = _forumProvider.GetUserById(id);
+            var userVm = Mapper.Map<User, UserViewModel>(user);
+            return PartialView(userVm);
         }
 
         public JsonResult UserNameSearch(string searchTerm)
         {
-            var query = from u in _forumRepository.GetAllUsers()
+            var query = from u in _forumProvider.GetAllUsers()
                         where u.UserName.ToLower().StartsWith(searchTerm.ToLower())
                         select u.UserName;
             return Json(query.ToArray(), JsonRequestBehavior.AllowGet);

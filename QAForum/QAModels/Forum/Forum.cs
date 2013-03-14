@@ -1,4 +1,4 @@
-﻿namespace QAForum.Models.Forum
+﻿namespace QAModels.Forum
 {
     public class Forum
     {

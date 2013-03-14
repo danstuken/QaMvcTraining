@@ -1,0 +1,5 @@
+﻿@model QAForum.Models.ViewModels.PostTagViewModel
+
+<span class="tag">
+    @Html.ActionLink(Model.Tag, "TagSearch", "Post", new {tag = Model.Tag}, null)
+</span>

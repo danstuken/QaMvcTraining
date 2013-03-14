@@ -16,7 +16,7 @@ namespace QAForum.Tests.Controllers
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController(null);
+            HomeController controller = new HomeController();
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -29,7 +29,7 @@ namespace QAForum.Tests.Controllers
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController(null);
+            HomeController controller = new HomeController();
 
             // Act
             ViewResult result = controller.About() as ViewResult;

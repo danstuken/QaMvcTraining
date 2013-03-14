@@ -1,8 +1,8 @@
-﻿namespace QAForum.Infrastructure
+﻿namespace EntityFrameworkDataLayer
 {
     using System.Data.Entity;
-    using Models;
-    using Models.Forum;
+    using QAModels;
+    using QAModels.Forum;
 
     public interface ForumContext
     {

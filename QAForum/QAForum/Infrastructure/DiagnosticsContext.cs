@@ -1,7 +1,7 @@
 ﻿namespace QAForum.Infrastructure
 {
     using System.Data.Entity;
-    using Models.Diagnostics;
+    using QAModels.Diagnostics;
 
     public interface DiagnosticsContext
     {

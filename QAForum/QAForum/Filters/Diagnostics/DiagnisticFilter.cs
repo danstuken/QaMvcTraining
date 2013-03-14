@@ -5,7 +5,7 @@
     using System.Web;
     using System.Web.Mvc;
     using Infrastructure;
-    using Models.Diagnostics;
+    using QAModels.Diagnostics;
 
     public class DiagnosticFilter : ActionFilterAttribute
     {

@@ -5,24 +5,27 @@
     using System.Linq;
     using System.Web.Mvc;
     using AutoMapper;
-    using Infrastructure;
-    using Models.Forum;
     using Models.ViewModels;
+    using Providers;
+    using QAModels.Forum;
+    using Tags;
 
     public class PostController : Controller
     {
-        private readonly ForumRepository _forumRepository;
+        private readonly ForumProvider _forumProvider;
+        private readonly TagCloudProvider _tagProvider;
 
-        public PostController(ForumRepository forumRepository)
+        public PostController(ForumProvider forumProvider, TagCloudProvider tagProvider)
         {
-            _forumRepository = forumRepository;
+            _forumProvider = forumProvider;
+            _tagProvider = tagProvider;
         }
 
         [OutputCache(Duration = 10)]
         public ActionResult Index()
         {
-            var allPosts = _forumRepository.GetAllPosts();
-            var allThreads = _forumRepository.GetAllThreads();
+            var allPosts = _forumProvider.GetAllPosts();
+            var allThreads = _forumProvider.GetAllThreads();
 
             var allPostsVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(allPosts);
             var allThreadsVms = Mapper.Map<IEnumerable<Thread>, IEnumerable<ThreadViewModel>>(allThreads);
@@ -34,7 +37,7 @@
 
         public ActionResult Details(int id)
         {
-            var post = _forumRepository.GetPostById(id);
+            var post = _forumProvider.GetPostById(id);
             var postVm = Mapper.Map<Post, PostViewModel>(post);
 
             ViewBag.Message = "Post detail";
@@ -51,13 +54,13 @@
         public ActionResult Create(PostViewModel postVm)
         {
             var post = Mapper.Map<PostViewModel, Post>(postVm);
-            _forumRepository.AddPost(post);
+            _forumProvider.AddPost(post);
             return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int id)
         {
-            var post = _forumRepository.GetPostById(id);
+            var post = _forumProvider.GetPostById(id);
             var postVm = Mapper.Map<Post, PostViewModel>(post);
             return View(postVm);
         }
@@ -66,13 +69,13 @@
         public ActionResult Edit(PostViewModel postVm)
         {
             var post = Mapper.Map<PostViewModel, Post>(postVm);
-            _forumRepository.UpdatePost(post);
+            _forumProvider.UpdatePost(post);
             return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id)
         {
-            var post = _forumRepository.GetPostById(id);
+            var post = _forumProvider.GetPostById(id);
             var postVm = Mapper.Map<Post, PostViewModel>(post);
             return View(postVm);
         }
@@ -81,7 +84,7 @@
         public ActionResult Delete(PostViewModel postVm)
         {
             var post = Mapper.Map<PostViewModel, Post>(postVm);
-            _forumRepository.DeletePost(post);
+            _forumProvider.DeletePost(post);
             return RedirectToAction("Index");
         }
 
@@ -90,7 +93,7 @@
             IEnumerable<PostViewModel> postVms = new PostViewModel[] {};
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                var foundPosts = _forumRepository.FindPosts(searchTerm);
+                var foundPosts = _forumProvider.FindPosts(searchTerm);
                 postVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(foundPosts);
                 
             }
@@ -102,7 +105,7 @@
 
         public ActionResult PostsByThread(int id)
         {
-            var posts = _forumRepository.GetPostsByThread(id);
+            var posts = _forumProvider.GetPostsByThread(id);
             var postVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(posts);
             
             if (Request.IsAjaxRequest())
@@ -114,9 +117,9 @@
         {
             IEnumerable<Post> posts;
             if (!string.IsNullOrEmpty(tag))
-                posts = _forumRepository.FindPosts(tag);
+                posts = _forumProvider.FindPosts(tag);
             else
-                posts = _forumRepository.GetAllPosts();
+                posts = _forumProvider.GetAllPosts();
             
             ViewBag.Message = "Posts for tag: " + tag;
             var postsVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(posts);
@@ -125,13 +128,20 @@
 
         public ActionResult DateSearch(int day, int month, int year)
         {
-            var query = from p in _forumRepository.GetAllPosts()
+            var query = from p in _forumProvider.GetAllPosts()
                         where p.PostDateTime.Date == new DateTime(year, month, day)
                         select p;
             var postsVms = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(query.ToList());
 
             ViewBag.Message = string.Format("Posts posted on: {0}/{1}/{2}", day, month, year);
             return View(postsVms);
+        }
+
+        public PartialViewResult PostsTagCloud()
+        {
+            var tags = _tagProvider.GetTagCloud();
+            var tagsVms = Mapper.Map<IEnumerable<KeyValuePair<string, int>>, IEnumerable<PostTagViewModel>>(tags);
+            return PartialView(tagsVms);
         }
     }
 }

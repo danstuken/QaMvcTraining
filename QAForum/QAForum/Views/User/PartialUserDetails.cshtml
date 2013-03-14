@@ -1,6 +1,6 @@
-﻿@model QAForum.Models.User
+﻿@model QAForum.Models.ViewModels.UserViewModel
 
 <div class="user-details">
-    <img src="../../Content/images/avatars/avatar1.jpg" alt="avatar" width="100" height="100"/>
+    <img src="@Model.AvatarPath" alt="avatar" width="100" height="100"/>
     <h4>@Model.UserName</h4>
 </div>

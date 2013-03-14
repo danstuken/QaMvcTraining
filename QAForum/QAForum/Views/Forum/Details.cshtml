@@ -1,4 +1,4 @@
-﻿@using QAForum.Models.Forum
+﻿@using QAForum.Models.ViewModels
 @model QAForum.Models.ViewModels.ForumViewModel
 
 @{
@@ -15,7 +15,7 @@
         @Html.DisplayFor(model => model.ForumTitle)
     </div>
     <h3>Threads</h3>
-    @Html.Partial("~/Views/Thread/PartialThreadList.cshtml", (List<Thread>)(ViewBag.Threads))
+    @Html.Partial("~/Views/Thread/PartialThreadList.cshtml", (List<ThreadViewModel>)(ViewBag.Threads))
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.ForumId }) |

@@ -1,10 +1,11 @@
-﻿namespace QAForum.Infrastructure
+﻿namespace EntityFrameworkDataLayer
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Models;
-    using Models.Forum;
+    using QADataServices.DataLayer;
+    using QAModels;
+    using QAModels.Forum;
 
     public class SqlForumRepository: ForumRepository
     {

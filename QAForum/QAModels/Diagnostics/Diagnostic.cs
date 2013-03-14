@@ -1,4 +1,4 @@
-﻿namespace QAForum.Models.Diagnostics
+﻿namespace QAModels.Diagnostics
 {
     using System;
 

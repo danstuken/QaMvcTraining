@@ -1,9 +1,9 @@
-﻿namespace QAForum.Infrastructure
+﻿namespace QADataServices.DataLayer
 {
     using System;
     using System.Collections.Generic;
-    using Models;
-    using Models.Forum;
+    using QAModels;
+    using QAModels.Forum;
 
     public interface ForumRepository
     {
