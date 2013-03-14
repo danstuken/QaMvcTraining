@@ -26,6 +26,7 @@
             return View(allThreadVms);
         }
 
+        [Authorize(Roles = "Users")]
         public ActionResult Details(int id)
         {
             var thread = _forumProvider.GetThreadById(id);
@@ -36,6 +37,7 @@
             return View(threadVm);
         }
 
+        [Authorize(Roles = "Users")]
         public ActionResult Create()
         {
             var threadVm = new ThreadViewModel();
@@ -43,6 +45,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Users")]
         public ActionResult Create(ThreadViewModel threadVm)
         {
             var thread = Mapper.Map<ThreadViewModel, Thread>(threadVm);
@@ -51,6 +54,7 @@
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Administrators, Moderators")]
         public ActionResult Edit(int id)
         {
             var thread = _forumProvider.GetThreadById(id);
@@ -60,6 +64,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrators, Moderators")]
         public ActionResult Edit(ThreadViewModel threadVm)
         {
             var thread = Mapper.Map<ThreadViewModel, Thread>(threadVm);
@@ -68,6 +73,7 @@
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Administrators, Moderators")]
         public ActionResult Delete(int id)
         {
             var thread = _forumProvider.GetThreadById(id);
@@ -77,6 +83,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrators, Moderators")]
         public ActionResult Delete(ThreadViewModel threadVm)
         {
             var thread = Mapper.Map<ThreadViewModel, Thread>(threadVm);

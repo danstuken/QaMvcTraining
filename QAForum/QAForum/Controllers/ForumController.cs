@@ -37,6 +37,7 @@
             return View(forumVm);
         }
 
+        [Authorize(Roles = "Administrators")]
         public ActionResult Create()
         {
             var newForumVm = new ForumViewModel();
@@ -44,6 +45,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrators")]
         public ActionResult Create(ForumViewModel forumVm)
         {
             var forumToCreate = Mapper.Map<ForumViewModel, Forum>(forumVm);
@@ -52,6 +54,7 @@
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Administrators, Moderators")]
         public ActionResult Edit(int id)
         {
             var forumToEdit = _forumProvider.GetForumById(id);
@@ -61,6 +64,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrators, Moderators")]
         public ActionResult Edit(ForumViewModel forumVm)
         {
             var updatedForum = Mapper.Map<ForumViewModel, Forum>(forumVm);
@@ -68,6 +72,7 @@
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Administrators")]
         public ActionResult Delete(int id)
         {
             var forumToDelete = _forumProvider.GetForumById(id);
@@ -77,6 +82,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrators")]
         public ActionResult Delete(ForumViewModel forumVm)
         {
             var forumToDelete = Mapper.Map<ForumViewModel, Forum>(forumVm);
