@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Profile - Select Avatar";
+}
+
+<h2>Avatar Selection</h2>
+@foreach (var image in @ViewBag.AvatarList)
+{
+    <span class="image">
+        <a href="/Profile/UpdateProfileAvatar?avatar=@image.AvatarName">
+            <img height="100" width="100" src="@image.FullPath" alt="@image.AvatarName"/>
+        </a>
+    </span>
+}

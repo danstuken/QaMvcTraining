@@ -88,6 +88,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LegacyController.cs" />
     <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ThreadController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -101,6 +102,9 @@
     <Compile Include="Mapping\ViewModelMapping.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Infrastructure\EntityFrameworkDiagnosticsContext.cs" />
+    <Compile Include="Models\AvatarData.cs" />
+    <Compile Include="Models\ForumProfile.cs" />
+    <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\ViewModels\ForumViewModel.cs" />
     <Compile Include="Models\ViewModels\MemberViewModel.cs" />
     <Compile Include="Models\ViewModels\PostTagViewModel.cs" />
@@ -306,6 +310,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Administrator\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Profile\SelectAvatar.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
