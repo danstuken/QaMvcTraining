@@ -1,0 +1,25 @@
+﻿@model QAForum.Models.ViewModels.MemberViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.Message</h2>
+
+<fieldset>
+    <legend>MemberViewModel</legend>
+
+    <div class="display-label">Member</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MemberId)
+    </div>
+
+    <div class="display-label">IsAuthorized</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsApproved)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.MemberId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

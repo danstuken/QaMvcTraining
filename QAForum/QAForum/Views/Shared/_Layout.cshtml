@@ -24,6 +24,10 @@
                     <li>@Html.ActionLink("Forums", "Index", "Forum")</li>
                     <li>@Html.ActionLink("Thread", "Index", "Thread")</li>
                     <li>@Html.ActionLink("Posts", "Index", "Post")</li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Administrators"))
+                    {
+                        <li>@Html.ActionLink("Administration", "Index", "Administrator")</li>
+                    }
                     <li>@Html.ActionLink("Search", "FindPosts", "Post")</li>
                     <li>@Html.ActionLink("Statistics", "Stats", "Legacy")</li>
                 </ul>

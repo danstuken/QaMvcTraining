@@ -1,4 +1,4 @@
-﻿namespace QAModels
+﻿namespace QAModels.Membership
 {
     using System;
 

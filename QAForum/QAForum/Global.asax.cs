@@ -69,6 +69,7 @@ namespace QAForum
         {
             ViewModelMapping.MapModelsToViewModels();
             ViewModelMapping.MapViewModelsToModels();
+            AutoMapper.Mapper.AssertConfigurationIsValid();
         }
 
         private static void ConfigureIoC()

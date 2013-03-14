@@ -6,6 +6,7 @@
     using QADataServices.DataLayer;
     using QAModels;
     using QAModels.Forum;
+    using QAModels.Membership;
 
     public class SqlForumRepository: ForumRepository
     {
@@ -150,6 +151,25 @@
         IEnumerable<User> ForumRepository.GetAllUsers()
         {
             return _forumContext.Users.ToList();
-        } 
+        }
+
+        Member ForumRepository.GetMemberById(Guid userId)
+        {
+            return _forumContext.Members.Single(m => m.UserId == userId);
+        }
+
+        void ForumRepository.UpdateMember(Member member)
+        {
+            var tmpMember = _forumContext.Members.Single(m => m.UserId == member.UserId);
+            tmpMember.IsApproved = member.IsApproved;
+            _forumContext.SaveChanges();
+        }
+
+        bool ForumRepository.IsMemberAuthorized(string username)
+        {
+            var tmpUser = _forumContext.Users.Single(u => u.UserName == username);
+            var tmpMember = _forumContext.Members.Single(m => m.UserId == tmpUser.UserId);
+            return tmpMember.IsApproved;
+        }
     }
 }

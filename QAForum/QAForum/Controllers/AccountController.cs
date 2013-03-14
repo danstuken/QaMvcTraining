@@ -4,12 +4,17 @@
     using System.Web.Mvc;
     using System.Web.Security;
     using Models;
+    using Providers;
 
     public class AccountController : Controller
     {
 
-        //
-        // GET: /Account/LogOn
+        private readonly ForumProvider _forumProvider;
+
+        public AccountController(ForumProvider forumProvider)
+        {
+            _forumProvider = forumProvider;
+        }
 
         public ActionResult LogOn()
         {
@@ -39,7 +44,10 @@
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    if(_forumProvider.IsMemberAuthorized(model.UserName))
+                        ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    else
+                        ModelState.AddModelError("", "This account has been disabled :(.");
                 }
             }
 

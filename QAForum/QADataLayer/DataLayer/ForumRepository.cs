@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using QAModels;
     using QAModels.Forum;
+    using QAModels.Membership;
 
     public interface ForumRepository
     {
@@ -27,5 +27,8 @@
         void UpdatePost(Post post);
         void DeletePost(Post post);
         IEnumerable<User> GetAllUsers();
+        Member GetMemberById(Guid userId);
+        void UpdateMember(Member member);
+        bool IsMemberAuthorized(string username);
     }
 }

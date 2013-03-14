@@ -5,8 +5,8 @@
     using System.Linq;
     using DataLayer;
     using ForumServiceContract;
-    using QAModels;
     using QAModels.Forum;
+    using QAModels.Membership;
 
     public class ForumService : IForumService
     {
@@ -117,6 +117,21 @@
         public User GetUserById(Guid userId)
         {
             return _forumRepository.GetUserById(userId);
+        }
+
+        public Member GetMemberById(Guid userId)
+        {
+            return _forumRepository.GetMemberById(userId);
+        }
+
+        public void UpdateMember(Member member)
+        {
+            _forumRepository.UpdateMember(member);
+        }
+
+        public bool IsMemberAuthorized(string username)
+        {
+            return _forumRepository.IsMemberAuthorized(username);
         }
     }
 }

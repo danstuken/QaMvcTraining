@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using ForumServiceContract;
-    using QAModels;
     using QAModels.Forum;
+    using QAModels.Membership;
 
     public class ServiceWrapperForumProvider: ForumProvider
     {
@@ -113,6 +113,21 @@
         public IEnumerable<User> GetAllUsers()
         {
             return _forumService.GetAllUsers();
+        }
+
+        public Member GetMemberById(Guid userId)
+        {
+            return _forumService.GetMemberById(userId);
+        }
+
+        public void UpdateMember(Member member)
+        {
+            _forumService.UpdateMember(member);
+        }
+
+        public bool IsMemberAuthorized(string username)
+        {
+            return _forumService.IsMemberAuthorized(username);
         }
     }
 }

@@ -6,7 +6,7 @@
     using AutoMapper;
     using Models.ViewModels;
     using Providers;
-    using QAModels;
+    using QAModels.Membership;
 
     public class UserController:Controller
     {

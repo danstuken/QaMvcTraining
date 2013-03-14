@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.ServiceModel;
-    using QAModels;
     using QAModels.Forum;
+    using QAModels.Membership;
 
     [ServiceContract]
     public interface IForumService
@@ -68,5 +68,14 @@
 
         [OperationContract]
         User GetUserById(Guid userId);
+
+        [OperationContract]
+        Member GetMemberById(Guid userId);
+
+        [OperationContract]
+        void UpdateMember(Member member);
+
+        [OperationContract]
+        bool IsMemberAuthorized(string username);
     }
 }
