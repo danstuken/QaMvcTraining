@@ -5,6 +5,7 @@
     using System.ServiceModel;
     using QAModels.Forum;
     using QAModels.Membership;
+    using QAModels.Statistics;
 
     [ServiceContract]
     public interface IForumService
@@ -77,5 +78,8 @@
 
         [OperationContract]
         bool IsMemberAuthorized(string username);
+
+        [OperationContract]
+        IEnumerable<ForumPosts> GetPostingStatistics();
     }
 }

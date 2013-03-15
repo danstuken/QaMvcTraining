@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using QADataServices.DataLayer;
-    using QAModels;
     using QAModels.Forum;
     using QAModels.Membership;
+    using QAModels.Statistics;
 
     public class SqlForumRepository: ForumRepository
     {
@@ -170,6 +170,22 @@
             var tmpUser = _forumContext.Users.Single(u => u.UserName == username);
             var tmpMember = _forumContext.Members.Single(m => m.UserId == tmpUser.UserId);
             return tmpMember.IsApproved;
+        }
+
+        public IEnumerable<ForumPosts> GetPostingStatistics()
+        {
+            var query = from f in _forumContext.Forums
+                        join t in _forumContext.Threads on f.ForumId equals t.ForumId
+                        join p in _forumContext.Posts on t.ThreadId equals p.ThreadId
+                        group f by new {f.ForumTitle}
+                        into grp
+                        orderby grp.Count()
+                        select new ForumPosts
+                            {
+                                ForumTitle = grp.Key.ForumTitle,
+                                NumberOfPosts = grp.Count()
+                            };
+            return query;
         }
     }
 }

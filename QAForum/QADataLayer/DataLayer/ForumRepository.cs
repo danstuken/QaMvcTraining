@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using QAModels.Forum;
     using QAModels.Membership;
+    using QAModels.Statistics;
 
     public interface ForumRepository
     {
@@ -30,5 +31,6 @@
         Member GetMemberById(Guid userId);
         void UpdateMember(Member member);
         bool IsMemberAuthorized(string username);
+        IEnumerable<ForumPosts> GetPostingStatistics();
     }
 }

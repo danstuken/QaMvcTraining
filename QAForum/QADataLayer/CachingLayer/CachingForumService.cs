@@ -6,6 +6,7 @@
     using ForumServiceContract;
     using QAModels.Forum;
     using QAModels.Membership;
+    using QAModels.Statistics;
 
     public class CachingForumService: IForumService
     {
@@ -129,6 +130,11 @@
         public bool IsMemberAuthorized(string username)
         {
             return _forumService.IsMemberAuthorized(username);
+        }
+
+        public IEnumerable<ForumPosts> GetPostingStatistics()
+        {
+            return _forumService.GetPostingStatistics();
         }
 
         private TResult FetchOrCache<TResult>(Func<TResult> generator, string cacheKey)

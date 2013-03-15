@@ -6,7 +6,7 @@
     {
          public ActionResult Stats()
          {
-             return View();
+             return Redirect("/Legacy/Stats.aspx");
          }
     }
 }

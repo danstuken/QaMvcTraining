@@ -7,6 +7,7 @@ namespace QAForum
     using Autofac;
     using Autofac.Integration.Mvc;
     using Autofac.Integration.Wcf;
+    using Autofac.Integration.Web;
     using Filters;
     using ForumServiceContract;
     using Infrastructure;
@@ -17,7 +18,7 @@ namespace QAForum
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : System.Web.HttpApplication, IContainerProviderAccessor
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -32,6 +33,7 @@ namespace QAForum
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{controller}/ChartImg.axd/{*pathInfo}");
 
             routes.MapRoute(
                 "Search Route",
@@ -56,7 +58,7 @@ namespace QAForum
 
         protected void Application_Start()
         {
-            ConfigureIoC();
+            RegisterIoCContainerWithMvc();
             ConfigureMappings();
 
             AreaRegistration.RegisterAllAreas();
@@ -72,8 +74,13 @@ namespace QAForum
             AutoMapper.Mapper.AssertConfigurationIsValid();
         }
 
-        private static void ConfigureIoC()
+        private void RegisterIoCContainerWithMvc()
         {
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(ContainerProvider.ApplicationContainer));
+        }
+
+        private IContainer BuildIoCContainer(){
+
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof (MvcApplication).Assembly);
             builder.RegisterType<EntityFrameworkDiagnosticsContext>().As<DiagnosticsContext>();
@@ -85,8 +92,18 @@ namespace QAForum
                    .SingleInstance();
             builder.Register(c => c.Resolve<ChannelFactory<IForumService>>().CreateChannel())
                    .UseWcfSafeRelease();
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            return builder.Build();
+        }
+
+        private IContainerProvider _containerProvider;
+        public IContainerProvider ContainerProvider
+        {
+            get
+            {
+                if (_containerProvider == null)
+                    _containerProvider = new ContainerProvider(BuildIoCContainer());
+                return _containerProvider;
+            }
         }
     }
 }

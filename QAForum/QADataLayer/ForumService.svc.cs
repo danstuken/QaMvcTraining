@@ -7,6 +7,7 @@
     using ForumServiceContract;
     using QAModels.Forum;
     using QAModels.Membership;
+    using QAModels.Statistics;
 
     public class ForumService : IForumService
     {
@@ -132,6 +133,11 @@
         public bool IsMemberAuthorized(string username)
         {
             return _forumRepository.IsMemberAuthorized(username);
+        }
+
+        public IEnumerable<ForumPosts> GetPostingStatistics()
+        {
+            return _forumRepository.GetPostingStatistics();
         }
     }
 }
