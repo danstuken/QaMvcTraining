@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using QAForum;
-using QAForum.Controllers;
-
-namespace QAForum.Tests.Controllers
+﻿namespace QAForum.Tests.Controllers
 {
+    using System.Web.Mvc;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using QAForum.Controllers;
+
     [TestClass]
     public class HomeControllerTest
     {
@@ -17,12 +12,11 @@ namespace QAForum.Tests.Controllers
         {
             // Arrange
             HomeController controller = new HomeController();
-
             // Act
             ViewResult result = controller.Index() as ViewResult;
 
             // Assert
-            Assert.AreEqual("Welcome to ASP.NET MVC!", result.ViewBag.Message);
+            Assert.AreEqual("Welcome to the QA Forum", result.ViewBag.Message);
         }
 
         [TestMethod]
