@@ -43,6 +43,7 @@
       <HintPath>..\packages\Autofac.Wcf.3.0.0\lib\net40\Autofac.Integration.Wcf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -74,6 +75,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachingLayer\CachingForumService.cs" />
     <Compile Include="DataLayer\ForumRepository.cs" />
     <Compile Include="ForumService.svc.cs">
       <DependentUpon>ForumService.svc</DependentUpon>

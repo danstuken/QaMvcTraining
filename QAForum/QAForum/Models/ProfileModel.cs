@@ -7,7 +7,7 @@
 
     public class ProfileModel
     {
-        private const string AvatarPath = @"/content/images/avatars";
+        private const string AvatarPath = @"/content/images/avatars/";
 
         public IEnumerable<AvatarData> GetAllAvatars()
         {

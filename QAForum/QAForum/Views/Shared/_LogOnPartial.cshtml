@@ -1,9 +1,11 @@
-﻿@if(Request.IsAuthenticated) {
+﻿@using QAForum.Helpers
+@if(Request.IsAuthenticated) {
     <text>Welcome <strong>@User.Identity.Name</strong>!
-        [ @Html.ActionLink("Log Off", "LogOff", "Account") ]</text>
-        <img src="../../Content/images/avatars/avatar29.gif" width="40" height="40" alt="member avatar" />
+        [ @Html.ActionLink("Log Off", "LogOff", "Account") ]
+        [ @Html.ActionLink("Profile", "SelectAvatar", "Profile") ]</text>
+        @Html.Avatar()
 }
 else {
     @:[ @Html.ActionLink("Log On", "LogOn", "Account") ]
-    <img src="../../Content/images/avatars/avatar1.jpg" width="40" height="40" alt="anonymous avatar"/>
+    @Html.Avatar()
 }
